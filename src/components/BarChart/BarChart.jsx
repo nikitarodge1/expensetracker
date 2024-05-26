@@ -28,7 +28,7 @@ export default function BarChartComponent({ data }) {
                 dataKey="name"
                 axisLine={false}
               />
-              <Bar dataKey="value" fill="#8884d8" barSize={25} />
+              <Bar dataKey="value" fill="#8884d8" barSize={25} radius={[0, 20, 20, 0]} />
             </BarChart>
           </ResponsiveContainer>
         ) : (

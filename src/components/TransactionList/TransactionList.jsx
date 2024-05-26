@@ -9,8 +9,8 @@ export default function TransactionList({
   transactions,
   title,
   editTransactions,
-  balance,
-  setBalance,
+  bal,
+  setBal,
 }) {
   const [editId, setEditId] = useState(0);
   const [isDisplayEditor, setIsDisplayEditor] = useState(false);
@@ -19,12 +19,12 @@ export default function TransactionList({
   const maxRecords = 3;
   const [totalPages, setTotalPages] = useState(0);
 
-  const handleDelete = (id) => {
-    const item = transactions.find((i) => i.id == id);
+  const handleDel = (id) => {
+    const item = transactions.find((i) => i.id === id);
     const price = Number(item.price);
-    setBalance((prev) => prev + price);
+    setBal((prev) => prev + price);
 
-    editTransactions((prev) => prev.filter((item) => item.id != id));
+    editTransactions((prev) => prev.filter((item) => item.id !== id));
   };
 
   const handleEdit = (id) => {
@@ -40,13 +40,13 @@ export default function TransactionList({
     setTotalPages(Math.ceil(transactions.length / maxRecords));
   }, [currentPage, transactions]);
 
-  // update page if all items on current page have been deleted
   useEffect(() => {
     if (totalPages < currentPage && currentPage > 1) {
       setCurrentPage((prev) => prev - 1);
     }
   }, [totalPages]);
-
+ 
+  
   return (
     <div className={styles.transactionsWrapper}>
       {title && <h2>{title}</h2>}
@@ -58,7 +58,7 @@ export default function TransactionList({
               <TransactionCard
                 details={transaction}
                 key={transaction.id}
-                handleDelete={() => handleDelete(transaction.id)}
+                handleDel={() => handleDel(transaction.id)}
                 handleEdit={() => handleEdit(transaction.id)}
               />
             ))}
@@ -80,11 +80,11 @@ export default function TransactionList({
       <Modal isOpen={isDisplayEditor} setIsOpen={setIsDisplayEditor}>
         <ExpenseForm
           editId={editId}
-          expenseList={transactions}
-          setExpenseList={editTransactions}
+          expList={transactions}
+          setExpList={editTransactions}
           setIsOpen={setIsDisplayEditor}
-          balance={balance}
-          setBalance={setBalance}
+          bal={bal}
+          setBal={setBal}
         />
       </Modal>
     </div>

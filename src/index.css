@@ -72,3 +72,6 @@ p,
 a {
   font-family: var(--font-body);
 }
+/* .recharts-layer.recharts-bar{
+  transform: translateY(-18px)!important;
+} */

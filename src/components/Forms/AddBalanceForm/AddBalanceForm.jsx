@@ -3,21 +3,21 @@ import Button from '../../Button/Button.jsx'
 import { useState } from 'react'
 import { useSnackbar } from 'notistack';
 
-export default function AddBalanceForm({ setIsOpen, setBalance }) {
+export default function AddBalanceForm({ setIsOpen, setBal }) {
 
-    const [income, setIncome] = useState('')
+    const [inc, setInc] = useState('')
     const { enqueueSnackbar } = useSnackbar();
 
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if (Number(income) < 0) {
+        if (Number(inc) < 0) {
             enqueueSnackbar("Income should be greater than 0", { variant: "warning" })
             setIsOpen(false)
             return
         }
 
-        setBalance(prev => prev + Number(income))
+        setBal(prev => prev + Number(inc))
         setIsOpen(false)
     }
 
@@ -30,8 +30,8 @@ export default function AddBalanceForm({ setIsOpen, setBalance }) {
                 <input
                     type="number"
                     placeholder='Income Amount'
-                    value={income}
-                    onChange={(e) => setIncome(e.target.value)}
+                    value={inc}
+                    onChange={(e) => setInc(e.target.value)}
                     required
                 />
 

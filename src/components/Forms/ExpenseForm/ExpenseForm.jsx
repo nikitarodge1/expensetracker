@@ -5,14 +5,14 @@ import { useSnackbar } from "notistack";
 
 export default function ExpenseForm({
   setIsOpen,
-  expenseList,
-  setExpenseList,
+  expList,
+  setExpList,
   editId,
-  setBalance,
-  balance,
+  setBal,
+  bal,
 }) {
   const initFormData = editId
-    ? expenseList.find((item) => item.id == editId)
+    ? expList.find((item) => item.id === editId)
     : {
         title: "",
         category: "",
@@ -31,7 +31,7 @@ export default function ExpenseForm({
   const handleAdd = (e) => {
     e.preventDefault();
 
-    if (balance < Number(formData.price)) {
+    if (bal < Number(formData.price)) {
       enqueueSnackbar("Price should be less than the wallet balance", {
         variant: "warning",
       });
@@ -39,10 +39,10 @@ export default function ExpenseForm({
       return;
     }
 
-    setBalance((prev) => prev - Number(formData.price));
+    setBal((prev) => prev - Number(formData.price));
 
-    const lastId = expenseList.length > 0 ? expenseList[0].id : 0;
-    setExpenseList((prev) => [{ ...formData, id: lastId + 1 }, ...prev]);
+    const lastId = expList.length > 0 ? expList[0].id : 0;
+    setExpList((prev) => [{ ...formData, id: lastId + 1 }, ...prev]);
 
     setFormData({
       title: "",
@@ -57,11 +57,11 @@ export default function ExpenseForm({
   const handleEdit = (e) => {
     e.preventDefault();
 
-    const updated = expenseList.map((item) => {
-      if (item.id == editId) {
+    const updated = expList.map((item) => {
+      if (item.id === editId) {
         const priceDifference = item.price - Number(formData.price);
 
-        if (priceDifference < 0 && Math.abs(priceDifference) > balance) {
+        if (priceDifference < 0 && Math.abs(priceDifference) > bal) {
           enqueueSnackbar("Price should not exceed the wallet balance", {
             variant: "warning",
           });
@@ -69,33 +69,18 @@ export default function ExpenseForm({
           return { ...item };
         }
 
-        setBalance((prev) => prev + priceDifference);
+        setBal((prev) => prev + priceDifference);
         return { ...formData, id: editId };
       } else {
         return item;
       }
     });
 
-    setExpenseList(updated);
+    setExpList(updated);
 
     setIsOpen(false);
   };
 
-  // useEffect(() => {
-
-  //     if (editId) {
-  //         const expenseData = expenseList.find(item => item.id == editId)
-
-  //         setFormData({
-  //             title: expenseData.title,
-  //             category: expenseData.category,
-  //             price: expenseData.price,
-  //             date: expenseData.date
-  //         })
-
-  //     }
-
-  // }, [editId])
 
   return (
     <div className={styles.formWrapper}>
